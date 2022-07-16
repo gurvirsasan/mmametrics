@@ -174,4 +174,4 @@ const getFighterData = (sherdogLink, callback) => {
     });
 };
 
-module.exports = {getFighterData, baseUrl};
+module.exports = { getFighterData, baseUrl };

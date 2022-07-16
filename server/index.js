@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const puppeteer = require('puppeteer');
 const _ = require('lodash');
-const {getFighterData, baseUrl} = require('./sherdog.js')
+const { getFighterData, baseUrl } = require('./sherdog.js');
 
 const PORT = process.env.PORT || 3001;
 
@@ -78,7 +78,6 @@ app.get('/api/fighter', async (req, res) => {
   });
 });
 
-
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
@@ -87,3 +86,6 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+// websites used:
+// https://www.freecodecamp.org/news/how-to-create-a-react-app-with-a-node-backend-the-complete-guide/
