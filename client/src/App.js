@@ -13,9 +13,12 @@ function App() {
         console.log(data);
         setSearching(false);
         setData(data);
+      })
+      .catch((error) => {
+        setSearching(false);
+        console.error(error);
       });
   };
-
   const displayJSON = (data) => {
     if (data.errorMessage) return <h4>{data.errorMessage}</h4>;
     return (
