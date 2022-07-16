@@ -15,6 +15,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
  * Main API endpoint for retrieving fighter's data
  */
 app.get('/api/fighter', async (req, res) => {
+  console.log('received the order to fetch data...');
   const fighterSearchName = req.query.name;
   let sherdogLink = req.query.url;
 
@@ -67,6 +68,7 @@ app.get('/api/fighter', async (req, res) => {
   //----------------------------------+
   //  Get the fighter's data
   //----------------------------------+
+  console.log('asking sherdog.js to return data');
   getFighterData(sherdogLink, (fighterData) => {
     if (_.isEqual(fighterData, {}))
       return res
