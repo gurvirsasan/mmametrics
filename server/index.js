@@ -36,29 +36,33 @@ app.get('/api/fighter', async (req, res) => {
     //  find the link
     //----------------------------------+
     // const browser = await puppeteer.launch();
-    const browser = await puppeteer.launch({
-      ignoreDefaultArgs: ['--disable-extensions'],
-    });
+    try {
+      const browser = await puppeteer.launch({
+        ignoreDefaultArgs: ['--disable-extensions'],
+      });
 
-    const page = await browser.newPage();
-    const searchURL =
-      'https://www.google.com/search?q=' +
-      req.query.name.replace(' ', '+') +
-      '+sherdog';
+      const page = await browser.newPage();
+      const searchURL =
+        'https://www.google.com/search?q=' +
+        req.query.name.replace(' ', '+') +
+        '+sherdog';
 
-    // search
-    await page.goto(searchURL);
-    await page.waitForSelector('.LC20lb', { visible: true });
+      // search
+      await page.goto(searchURL);
+      await page.waitForSelector('.LC20lb', { visible: true });
 
-    // find link
-    const searchResults = await page.$$eval('.LC20lb', (els) =>
-      els.map((e) => ({ title: e.innerText, link: e.parentNode.href }))
-    );
-    sherdogLink = searchResults.find((searchResult) =>
-      searchResult.link.includes(baseUrl)
-    ).link;
-    // close browser
-    browser.close();
+      // find link
+      const searchResults = await page.$$eval('.LC20lb', (els) =>
+        els.map((e) => ({ title: e.innerText, link: e.parentNode.href }))
+      );
+      sherdogLink = searchResults.find((searchResult) =>
+        searchResult.link.includes(baseUrl)
+      ).link;
+      // close browser
+      browser.close();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   if (fighterSearchName && req.query.url && sherdogLink !== req.query.url)
