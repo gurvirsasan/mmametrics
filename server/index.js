@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const puppeteer = require('puppeteer');
 const _ = require('lodash');
 const { getFighterData, baseUrl } = require('./sherdog.js');
 const cors = require('cors');
