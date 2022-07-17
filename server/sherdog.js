@@ -9,50 +9,49 @@ const cheerio = require('cheerio');
 
 const baseUrl = 'https://www.sherdog.com/';
 
-const defaultFighterValues = {
-  name: '',
-  nickname: '',
-  age: '',
-  birthday: '',
-  locality: '',
-  nationality: '',
-  association: '',
-  height: '',
-  weight: '',
-  weight_class: '',
-  image_url: '',
-  draws: 0,
-  no_contests: 0,
-  wins: {
-    total: 0,
-    knockouts: 0,
-    submissions: 0,
-    decisions: 0,
-    others: 0,
-  },
-  losses: {
-    total: 0,
-    knockouts: 0,
-    submissions: 0,
-    decisions: 0,
-    others: 0,
-  },
-  fights: [],
-};
-
 const getFighterData = (sherdogLink, callback) => {
   axios
     .get(sherdogLink)
     .then((sherdogPage) => {
       const $ = cheerio.load(sherdogPage.data);
-      const fighter = defaultFighterValues;
+      const fighter = {
+        name: '',
+        nickname: '',
+        age: '',
+        birthday: '',
+        locality: '',
+        nationality: '',
+        association: '',
+        height: '',
+        weight: '',
+        weight_class: '',
+        image_url: '',
+        draws: 0,
+        no_contests: 0,
+        wins: {
+          total: 0,
+          knockouts: 0,
+          submissions: 0,
+          decisions: 0,
+          others: 0,
+        },
+        losses: {
+          total: 0,
+          knockouts: 0,
+          submissions: 0,
+          decisions: 0,
+          others: 0,
+        },
+        fights: [],
+      };
 
       //----------------------------------+
       //  Fighter's Name
       //----------------------------------+
       fighter.name = $('span.fn').text();
       fighter.nickname = $('span.nickname').text().replace(/['"]+/g, '');
-      fighter.image_url = $('.profile_image.photo').attr('src');
+      fighter.image_url =
+        baseUrl + $('.fighter-info > .fighter-right > img').attr('src');
 
       //----------------------------------+
       //  Fighter's Bio

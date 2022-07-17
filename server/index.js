@@ -21,6 +21,31 @@ app.use(
 );
 
 /**
+ * Summary: Perform a google search for the given name
+ * @param {*} name string
+ * @returns returns an Object of title and links for the google saerch
+ */
+const googleSearch = async (name) => {
+  const searchURL =
+    'https://www.google.com/search?q=' + name.replace(' ', '+') + '+sherdog';
+  try {
+    const { data } = await axios.get(searchURL, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
+      },
+    });
+    const $ = cheerio.load(data);
+    return Array.from($('div[class="yuRUbf"] >a')).map((a) => ({
+      title: $(a).text(),
+      link: $(a).attr('href'),
+    }));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/**
  * Main API endpoint for retrieving fighter's data
  */
 app.get('/api/fighter', async (req, res) => {
@@ -36,25 +61,8 @@ app.get('/api/fighter', async (req, res) => {
     //----------------------------------+
     //  find the link
     //----------------------------------+
-    const searchURL =
-      'https://www.google.com/search?q=' +
-      req.query.name.replace(' ', '+') +
-      '+sherdog';
-    const { data } = await axios
-      .get(searchURL, {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
-        },
-      })
-      .catch((error) => console.error(error));
-    // use cheerio to find the link
-    const $ = cheerio.load(data);
-    const searchResults = Array.from($('div[class="yuRUbf"] >a')).map((a) => ({
-      title: $(a).text(),
-      link: $(a).attr('href'),
-    }));
-    console.log(searchResults);
+    console.log('Fetching for sherdog link ...');
+    const searchResults = await googleSearch(req.query.name);
     sherdogLink = searchResults.find((searchResult) =>
       searchResult.link.includes(baseUrl)
     ).link;
@@ -66,7 +74,6 @@ app.get('/api/fighter', async (req, res) => {
     );
 
   if (!sherdogLink) {
-    console.log('no link brrr', sherdogLink);
     const errMsg = fighterSearchName
       ? `No fighter found: ${fighterSearchName}`
       : `Url provided is incorrect: ${sherdogLink}`;
@@ -76,11 +83,12 @@ app.get('/api/fighter', async (req, res) => {
   //----------------------------------+
   //  Get the fighter's data
   //----------------------------------+
-  getFighterData(sherdogLink, (fighterData) => {
+  getFighterData(sherdogLink, async (fighterData) => {
     if (_.isEqual(fighterData, {}))
       return res.status(400).json({
         errorMessage: `${sherdogLink} is invalid. Could not retrieve fighter's data...`,
       });
+
     return res.status(200).json(fighterData);
   });
 });
