@@ -3,6 +3,7 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const _ = require('lodash');
 const { getFighterData, baseUrl } = require('./sherdog.js');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 3001;
 
@@ -10,7 +11,7 @@ const app = express();
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-const cors = require('cors');
+
 app.use(
   cors({
     origin: 'https://mmametrics.herokuapp.com/',
@@ -34,7 +35,11 @@ app.get('/api/fighter', async (req, res) => {
     //----------------------------------+
     //  find the link
     //----------------------------------+
-    const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      ignoreDefaultArgs: ['--disable-extensions'],
+    });
+
     const page = await browser.newPage();
     const searchURL =
       'https://www.google.com/search?q=' +
