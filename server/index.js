@@ -10,6 +10,12 @@ const app = express();
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
+const cors = require('cors');
+app.use(
+  cors({
+    origin: 'https://mmametrics.herokuapp.com/',
+  })
+);
 
 /**
  * Main API endpoint for retrieving fighter's data
