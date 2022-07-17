@@ -4,6 +4,8 @@ const puppeteer = require('puppeteer');
 const _ = require('lodash');
 const { getFighterData, baseUrl } = require('./sherdog.js');
 const cors = require('cors');
+const axios = require('axios').default;
+const cheerio = require('cheerio');
 
 const PORT = process.env.PORT || 3001;
 
@@ -22,7 +24,6 @@ app.use(
  * Main API endpoint for retrieving fighter's data
  */
 app.get('/api/fighter', async (req, res) => {
-  console.log('received the order to fetch data...');
   const fighterSearchName = req.query.name;
   let sherdogLink = req.query.url;
 
@@ -35,34 +36,28 @@ app.get('/api/fighter', async (req, res) => {
     //----------------------------------+
     //  find the link
     //----------------------------------+
-    // const browser = await puppeteer.launch();
-    try {
-      const browser = await puppeteer.launch({
-        ignoreDefaultArgs: ['--disable-extensions'],
-      });
-
-      const page = await browser.newPage();
-      const searchURL =
-        'https://www.google.com/search?q=' +
-        req.query.name.replace(' ', '+') +
-        '+sherdog';
-
-      // search
-      await page.goto(searchURL);
-      await page.waitForSelector('.LC20lb', { visible: true });
-
-      // find link
-      const searchResults = await page.$$eval('.LC20lb', (els) =>
-        els.map((e) => ({ title: e.innerText, link: e.parentNode.href }))
-      );
-      sherdogLink = searchResults.find((searchResult) =>
-        searchResult.link.includes(baseUrl)
-      ).link;
-      // close browser
-      browser.close();
-    } catch (error) {
-      console.log(error);
-    }
+    const searchURL =
+      'https://www.google.com/search?q=' +
+      req.query.name.replace(' ', '+') +
+      '+sherdog';
+    const { data } = await axios
+      .get(searchURL, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
+        },
+      })
+      .catch((error) => console.error(error));
+    // use cheerio to find the link
+    const $ = cheerio.load(data);
+    const searchResults = Array.from($('div[class="yuRUbf"] >a')).map((a) => ({
+      title: $(a).text(),
+      link: $(a).attr('href'),
+    }));
+    console.log(searchResults);
+    sherdogLink = searchResults.find((searchResult) =>
+      searchResult.link.includes(baseUrl)
+    ).link;
   }
 
   if (fighterSearchName && req.query.url && sherdogLink !== req.query.url)
@@ -71,26 +66,21 @@ app.get('/api/fighter', async (req, res) => {
     );
 
   if (!sherdogLink) {
-    return res
-      .status(404)
-      .json(
-        fighterSearchName
-          ? `No fighter found: ${fighterSearchName}`
-          : `Url provided is incorrect: ${sherdogLink}`
-      );
+    console.log('no link brrr', sherdogLink);
+    const errMsg = fighterSearchName
+      ? `No fighter found: ${fighterSearchName}`
+      : `Url provided is incorrect: ${sherdogLink}`;
+    return res.status(404).json({ errorMessage: errMsg });
   }
 
   //----------------------------------+
   //  Get the fighter's data
   //----------------------------------+
-  console.log('asking sherdog.js to return data');
   getFighterData(sherdogLink, (fighterData) => {
     if (_.isEqual(fighterData, {}))
-      return res
-        .status(400)
-        .json(
-          `${sherdogLink} is invalid. Could not retrieve fighter's data...`
-        );
+      return res.status(400).json({
+        errorMessage: `${sherdogLink} is invalid. Could not retrieve fighter's data...`,
+      });
     return res.status(200).json(fighterData);
   });
 });
