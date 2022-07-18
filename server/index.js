@@ -35,7 +35,7 @@ const googleSearch = async (name) => {
       },
     });
     const $ = cheerio.load(data);
-    return Array.from($('div[class="yuRUbf"] >a')).map((a) => ({
+    return Array.from($('.yuRUbf >a')).map((a) => ({
       title: $(a).text(),
       link: $(a).attr('href'),
     }));
@@ -62,9 +62,15 @@ app.get('/api/fighter', async (req, res) => {
     //----------------------------------+
     console.log('Fetching for sherdog link ...');
     const searchResults = await googleSearch(req.query.name);
-    sherdogLink = searchResults.find((searchResult) =>
-      searchResult.link.includes(baseUrl)
-    ).link;
+    try {
+      sherdogLink = searchResults.find((searchResult) =>
+        searchResult.link.includes(baseUrl)
+      ).link;
+    } catch (error) {
+      return res.status(404).json({
+        errorMessage: `No fighter found: "${fighterSearchName}"`,
+      });
+    }
   }
 
   if (fighterSearchName && req.query.url && sherdogLink !== req.query.url)
@@ -72,12 +78,10 @@ app.get('/api/fighter', async (req, res) => {
       `Found link for "${fighterSearchName}" and provided url: "${req.query.url}" are not the same. \n Outputting results for the searched name...\n`
     );
 
-  if (!sherdogLink) {
-    const errMsg = fighterSearchName
-      ? `No fighter found: ${fighterSearchName}`
-      : `Url provided is incorrect: ${sherdogLink}`;
-    return res.status(404).json({ errorMessage: errMsg });
-  }
+  if (!sherdogLink)
+    return res
+      .status(404)
+      .json({ errorMessage: `Url provided is incorrect: ${sherdogLink}` });
 
   //----------------------------------+
   //  Get the fighter's data
