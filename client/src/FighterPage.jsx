@@ -2,18 +2,8 @@ import React, { useState } from 'react';
 
 const _ = require('lodash');
 
-interface IFighterPage {
-  searchedVal: string;
-  isSearching: boolean;
-  setIsSearching: (boolean) => void;
-}
-
-const FighterPage = ({
-  searchedVal,
-  isSearching,
-  setIsSearching,
-}: IFighterPage) => {
-  const [fighterData, setFighterData] = useState<any>({});
+const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
+  const [fighterData, setFighterData] = useState({});
 
   const getFighter = () => {
     fetch(`/api/fighter?name=${searchedVal}`)

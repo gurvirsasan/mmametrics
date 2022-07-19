@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import FighterPage from './FighterPage.tsx';
+import FighterPage from './FighterPage.jsx';
 import './App.css';
 
 import Box from '@mui/material/Box';
 
 function App() {
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [searchedVal, setSearchedVal] = useState<string>('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchedVal, setSearchedVal] = useState('');
   const Loading = () => <p>{isSearching ? 'Loading...' : ''}</p>;
 
   return (
