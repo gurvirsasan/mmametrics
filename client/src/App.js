@@ -3,13 +3,14 @@ import FighterPage from './FighterPage.jsx';
 import './App.css';
 
 import Box from '@mui/material/Box';
-import { TextField } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
   const Loading = () => <p>{isSearching ? 'Loading...' : ''}</p>;
 
+  const matches = useMediaQuery('(min-width:700px)');
   return (
     <>
       <div id='header'>
@@ -41,7 +42,12 @@ function App() {
         </div>
       </div>
       {/* page content */}
-      <Box sx={{ paddingTop: '60px' }}>
+      <Box
+        sx={{
+          paddingTop: matches ? '55px' : '90px',
+          maxWidth: matches ? '1500px' : '390px',
+        }}
+      >
         <Loading />
         <FighterPage
           searchedVal={searchedVal}

@@ -25,6 +25,7 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
     if (fighterData.errorMessage) return <h4>{fighterData.errorMessage}</h4>;
     return (
       <div>
+        <strong>{fighterData.name}</strong>
         {Object.keys(fighterData).map((key, i) => (
           <div>
             {key}: {JSON.stringify(fighterData[key])}
