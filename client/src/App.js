@@ -3,6 +3,7 @@ import FighterPage from './FighterPage.jsx';
 import './App.css';
 
 import Box from '@mui/material/Box';
+import { TextField } from '@mui/material';
 
 function App() {
   const [isSearching, setIsSearching] = useState(false);
@@ -21,21 +22,13 @@ function App() {
               <img src='./github.png' width={'40px'} alt='github png' />
             </a>
           </div>
-          <div className='child'>
+          <div className='child searchBar'>
             <input
               placeholder='Search Fighter...'
               onChange={(e) => setSearchedVal(e.target.value)}
               onKeyPress={(e) =>
                 e.key === 'Enter' ? setIsSearching(true) : ''
               }
-              style={{
-                height: '50px',
-                width: '50vh',
-                backgroundColor: 'white',
-                fontSize: '18px',
-                borderRadius: '25px',
-                padding: '0 25px 0 25px',
-              }}
             />
           </div>
           <div className='logo'>
