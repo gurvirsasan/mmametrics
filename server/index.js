@@ -68,7 +68,7 @@ app.get('/api/fighter', async (req, res) => {
       ).link;
     } catch (error) {
       return res.status(404).json({
-        errorMessage: `No fighter found: "${fighterSearchName}"`,
+        errorMessage: `Fighter not found`,
       });
     }
   }
@@ -87,11 +87,10 @@ app.get('/api/fighter', async (req, res) => {
   //  Get the fighter's data
   //----------------------------------+
   getFighterData(sherdogLink, async (fighterData) => {
-    if (_.isEqual(fighterData, {}))
+    if (_.isEqual(fighterData, {}) || _.isEqual(fighterData.fights, []))
       return res.status(400).json({
-        errorMessage: `${sherdogLink} is invalid. Could not retrieve fighter's data...`,
+        errorMessage: `Fighter not found`,
       });
-
     return res.status(200).json(fighterData);
   });
 });
