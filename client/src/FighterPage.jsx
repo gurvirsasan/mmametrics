@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-
-import { Box, Grid, Typography } from '@mui/material';
-
+import { Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
 const _ = require('lodash');
 
 const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
@@ -101,17 +98,18 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
           justifyContent='center'
           align='center'
           direction='row'
-          sx={{ paddingBottom: '10px' }}
         >
+          <Grid item sx={{ paddingBottom: '10px' }} />
           <Grid item xs={12} md={3} sx={{ height: '400px' }}>
             <img
               id='fighter-image'
               src={fighterData['image_url'] ?? './imageNotFound.png'}
-              alt='fighter image'
+              alt='fighter'
               style={{
                 height: '100%',
                 width: '100%',
                 objectFit: 'contain',
+                border: '5px solid #555;',
               }}
             />
           </Grid>
