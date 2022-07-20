@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FighterPage from './FighterPage.jsx';
 import './App.css';
+import Navbar from './Navbar.js';
 
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,47 +9,16 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
-  const Loading = () => <p>{isSearching ? 'Loading...' : ''}</p>;
-
-  const matches = useMediaQuery('(min-width:700px)');
+  const matches = useMediaQuery('(min-width:701px)');
   return (
     <>
-      <div id='header'>
-        <div className='nav-bar-container'>
-          <div className='socials'>
-            <a href='https://www.linkedin.com/in/gurvir-sasan-9a0aab192/'>
-              <img src='./linkedIn.png' width={'40px'} alt='linkedin png' />
-            </a>
-            <a href='https://github.com/gurvirsasan'>
-              <img src='./github.png' width={'40px'} alt='github png' />
-            </a>
-          </div>
-          <div className='child searchBar'>
-            <input
-              placeholder='Search Fighter...'
-              onChange={(e) => setSearchedVal(e.target.value)}
-              onKeyPress={(e) =>
-                e.key === 'Enter' ? setIsSearching(true) : ''
-              }
-            />
-          </div>
-          <div className='logo'>
-            <img
-              src='/mmametricsLogo.png'
-              width={'175px'}
-              alt='mmametrics logo'
-            />
-          </div>
-        </div>
-      </div>
+      <Navbar
+        searchedVal={searchedVal}
+        setSearchedVal={setSearchedVal}
+        setIsSearching={setIsSearching}
+      />
       {/* page content */}
-      <Box
-        sx={{
-          paddingTop: matches ? '55px' : '90px',
-          maxWidth: matches ? '1500px' : '390px',
-        }}
-      >
-        <Loading />
+      <Box sx={{ paddingTop: matches ? '60px' : '95px' }}>
         <FighterPage
           searchedVal={searchedVal}
           isSearching={isSearching}
