@@ -32,7 +32,7 @@ const Navbar = ({ searchedVal, setSearchedVal, setIsSearching }) => {
         <div className='logo'>
           <img
             src='/mmametricsLogo.png'
-            width={'175px'}
+            width={'150px'}
             alt='mmametrics logo'
           />
         </div>

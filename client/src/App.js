@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FighterPage from './FighterPage.jsx';
+import FighterPage from './FighterInfo/FighterPage.jsx';
 import './App.css';
 import Navbar from './Navbar.js';
 
@@ -18,13 +18,11 @@ function App() {
         setIsSearching={setIsSearching}
       />
       {/* page content */}
-      <Box sx={{ paddingTop: matches ? '60px' : '95px' }}>
-        <FighterPage
-          searchedVal={searchedVal}
-          isSearching={isSearching}
-          setIsSearching={setIsSearching}
-        />
-      </Box>
+      <FighterPage
+        searchedVal={searchedVal}
+        isSearching={isSearching}
+        setIsSearching={setIsSearching}
+      />
     </>
   );
 }
