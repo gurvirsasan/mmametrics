@@ -1,11 +1,38 @@
 import React, { useState } from 'react';
-import { Paper, Grid, Typography } from '@mui/material';
+import { Paper, Grid, Box, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import FighterRecord from './FighterRecord';
+import FighterWiki from './FighterWiki';
+
 const _ = require('lodash');
 
-const GRID_ITEM_HEIGHT = '430px';
+const GRID_ITEM_HEIGHT = '400px';
+
+const FighterName = ({ fighterData }) => {
+  return (
+    <>
+      <Typography
+        id='nickname'
+        variant='h4'
+        fontSize='1.2rem'
+        fontWeight={600}
+        fontFamily={'Lato'}
+      >
+        <i>"{fighterData.nickname}"</i>
+      </Typography>
+      <Typography
+        id='fullName'
+        variant='h4'
+        fontSize={{ md: '2rem', xs: '1.8rem' }}
+        fontWeight={700}
+        fontFamily={'Lato'}
+      >
+        {fighterData.name.toUpperCase()}
+      </Typography>
+    </>
+  );
+};
 
 const FighterBio = ({ fighterData }) => {
   const theme = useTheme();
@@ -23,7 +50,7 @@ const FighterBio = ({ fighterData }) => {
       justifyContent='center'
       align='center'
       direction='row'
-      sx={{ height: { GRID_ITEM_HEIGHT } }}
+      sx={{ height: { GRID_ITEM_HEIGHT }, minWidth: '390pxx' }}
     >
       <Grid
         id='fighter-pic-grid-container'
@@ -40,7 +67,7 @@ const FighterBio = ({ fighterData }) => {
             src={fighterData['image_url'] ?? './imageNotFound.png'}
             alt='fighter'
             style={{
-              height: `${parseInt(GRID_ITEM_HEIGHT) - 10}px`,
+              height: `${parseInt(GRID_ITEM_HEIGHT)}px`,
               width: '100%',
               objectFit: 'contain',
             }}
@@ -51,7 +78,8 @@ const FighterBio = ({ fighterData }) => {
         item
         id='fighter-bio-grid-item'
         xs={12}
-        sm={6}
+        sm={7}
+        md={6}
         order={{ xs: 4, sm: 0 }}
       >
         <Paper
@@ -61,7 +89,6 @@ const FighterBio = ({ fighterData }) => {
             height: GRID_ITEM_HEIGHT,
             // margin: '5px 10px 5px 510x',
             my: '5px',
-            mx: '10px',
             borderRadius: '10px',
             textAlign: 'flex-start',
           }}
@@ -69,35 +96,21 @@ const FighterBio = ({ fighterData }) => {
           <Grid
             container
             id='fighter-bio-grid-container'
-            padding={'15px 25px 25px 25px'}
-            justifyContent='flex-start'
+            padding={'25px 25px 25px 25px'}
             direction='column'
-            textAlign='left'
-            spacing='2px'
+            textAlign='center'
+            mt='10px'
+            justifyContent='space-evenly'
           >
-            {/* FIGHTER NAME GRID ITEM */}
-            <Grid item id='fighter-name-grid-item' padding={'15px 0x 25px 0px'}>
-              <Typography
-                variant='h4'
-                fontSize='1.2rem'
-                fontWeight={700}
-                fontFamily={'Lato'}
-                sb='0'
-              >
-                <i>{fighterData.nickname.toUpperCase()}</i>
-              </Typography>
-              <Typography
-                variant='h4'
-                fontSize='2em'
-                fontWeight={400}
-                fontFamily={'Lato'}
-              >
-                {fighterData.name.toUpperCase()}
-              </Typography>
+            <Grid item id='fighter-name-grid-item' pb='15px'>
+              <FighterName fighterData={fighterData} />
             </Grid>
-            {/* RECORD GRID ITEM */}
-            <Grid item id='fighter-record-grid-item'>
+
+            <Grid item id='fighter-record-grid-item' pb='15px'>
               <FighterRecord fighterData={fighterData} />
+            </Grid>
+            <Grid item id='fighter-basic-stats' pt={{ xs: '10px', lg: '25px' }}>
+              <FighterWiki fighterData={fighterData} />
             </Grid>
           </Grid>
         </Paper>
@@ -105,13 +118,14 @@ const FighterBio = ({ fighterData }) => {
       <Grid
         item
         xs={12}
-        sm={3}
+        sm={2}
+        md={3}
         sx={{
           // height: xs ? '200px' : {GRID_ITEM_HEIGHT},
           backgroundColor: 'yellow',
         }}
       >
-        <Typography variant='h6'>overlaodde</Typography>
+        <Typography variant='h6'></Typography>
       </Grid>
     </Grid>
   );

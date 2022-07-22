@@ -47,6 +47,19 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
       </div>
     );
   }
+  if (fighterData.errorMessage) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          paddingTop: '30vh',
+        }}
+      >
+        {fighterData.errorMessage + ' :('}
+      </div>
+    );
+  }
 
   if (_.isEqual(fighterData, {})) {
     return (
@@ -67,20 +80,6 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
         >
           Hi! Search for any MMA fighter you can think of
         </Typography>
-      </div>
-    );
-  }
-
-  if (fighterData.errorMessage) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          paddingTop: '20px',
-        }}
-      >
-        {fighterData.errorMessage + ' :('}
       </div>
     );
   }
