@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import FighterBio from './FighterBio';
+import FighterBio, { GRID_ITEM_HEIGHT } from './FighterBio';
 const _ = require('lodash');
 
 const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
@@ -111,7 +111,6 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
               justifyContent='center'
               align='center'
               direction='row'
-              sx={{ height: '400px' }}
             >
               <FighterBio fighterData={fighterData} />
             </Grid>

@@ -1,31 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Grid, Box, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import FighterRecord from './FighterRecord';
 import FighterWiki from './FighterWiki';
+import Flag from 'react-world-flags';
+
+import countryData from '../Components/data/countries.json';
 
 const _ = require('lodash');
 
-const GRID_ITEM_HEIGHT = '400px';
+export const GRID_ITEM_HEIGHT = '420px';
 
 const FighterName = ({ fighterData }) => {
   return (
     <>
-      <Typography
-        id='nickname'
-        variant='h4'
-        fontSize='1.2rem'
-        fontWeight={600}
-        fontFamily={'Lato'}
-      >
-        <i>"{fighterData.nickname}"</i>
-      </Typography>
+      {fighterData.nickname !== '' && (
+        <Typography
+          id='nickname'
+          variant='h4'
+          fontSize={{ sm: '1.6rem', xs: '1.15rem' }}
+          fontWeight={600}
+          fontFamily={'Lato'}
+          color='#307ae5'
+        >
+          <i>"{fighterData.nickname}"</i>
+        </Typography>
+      )}
       <Typography
         id='fullName'
         variant='h4'
-        fontSize={{ md: '2rem', xs: '1.8rem' }}
-        fontWeight={700}
+        fontSize={{ sm: '2rem', xs: '1.65rem' }}
+        fontWeight={800}
         fontFamily={'Lato'}
       >
         {fighterData.name.toUpperCase()}
@@ -35,12 +40,81 @@ const FighterName = ({ fighterData }) => {
 };
 
 const FighterBio = ({ fighterData }) => {
-  const theme = useTheme();
+  const [countryISO, setCountryISO] = useState(undefined);
 
-  // media queries
-  const phoneView = useMediaQuery('(min-width:701px)');
-  const lg = useMediaQuery(theme.breakpoints.down('lg'));
-  const xs = useMediaQuery(theme.breakpoints.up('xs'));
+  const FighterFlag = (
+    <Grid
+      item
+      container
+      id='fighter-flag-grid-container'
+      xs={12}
+      sm={6}
+      lg={3}
+      pt={{ xs: '10px', sm: '0px' }}
+      alignItems={'center'}
+    >
+      <Grid item container direction='row'>
+        <Grid
+          item
+          container
+          xs={12}
+          justifyContent={{ sm: 'flex-start', xs: 'center' }}
+        >
+          <Flag code={countryISO} width='300vw' border='1px solid black' />
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          pt='5px'
+          justifyContent={{ sm: 'flex-start', xs: 'center' }}
+        >
+          <Typography
+            variant='h4'
+            fontSize='1.6rem'
+            fontFamily={'Lato'}
+            fontWeight={800}
+            textAlign='left'
+          >
+            {fighterData.nationality.toUpperCase()}
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          fontSize='0.42rem'
+          justifyContent={{ sm: 'flex-start', xs: 'center' }}
+          textAlign='left'
+        >
+          <Typography fontSize='1.3rem' fontFamily={'Lato'} color='#307ae5'>
+            {fighterData.locality.toUpperCase()}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
+  useEffect(() => {
+    const UK = ['England', 'Scotland', 'Wales', 'Northern Ireland'];
+    if (UK.includes(fighterData.nationality)) return setCountryISO('GBR');
+
+    const countryFound = countryData.find((data) =>
+      Object.keys(data).find((key) => {
+        const jsonCountry = data[key];
+        if (
+          _.isString(jsonCountry) &&
+          (jsonCountry === fighterData.nationality ||
+            jsonCountry.includes(fighterData.nationality))
+        )
+          return true;
+      })
+    );
+    setCountryISO(countryFound?.alpha3);
+  }, [fighterData]);
+
+  const allFour = () =>
+    fighterData.draws !== 0 && fighterData.no_contests !== 0;
 
   return (
     <Grid
@@ -50,18 +124,19 @@ const FighterBio = ({ fighterData }) => {
       justifyContent='center'
       align='center'
       direction='row'
-      sx={{ height: { GRID_ITEM_HEIGHT }, minWidth: '390pxx' }}
+      sx={{ minWidth: '375px' }}
     >
       <Grid
         id='fighter-pic-grid-container'
         item
         container
         xs={12}
-        sm={3}
-        justifyContent={{ md: 'flex-end', xs: 'center' }}
+        sm={6}
+        lg={3}
+        justifyContent={{ sm: 'flex-end', xs: 'center' }}
         alignItems='center'
       >
-        <Grid item id='fighter-pic-grid-item' pr='10px'>
+        <Grid item id='fighter-pic-grid-item' pr={{ xs: '0px', sm: '10px' }}>
           <img
             id='fighter-image'
             src={fighterData['image_url'] ?? './imageNotFound.png'}
@@ -70,6 +145,7 @@ const FighterBio = ({ fighterData }) => {
               height: `${parseInt(GRID_ITEM_HEIGHT)}px`,
               width: '100%',
               objectFit: 'contain',
+              // backgroundSize: 'cover',
             }}
           />
         </Grid>
@@ -78,31 +154,42 @@ const FighterBio = ({ fighterData }) => {
         item
         id='fighter-bio-grid-item'
         xs={12}
-        sm={7}
-        md={6}
-        order={{ xs: 4, sm: 0 }}
+        lg={6}
+        order={{ xs: 4, lg: 0 }}
+        maxWidth='500px'
+        pr={{ lg: '20px' }}
       >
         <Paper
           id='fighter-bio-paper'
-          elevation='2'
+          elevation={2}
           sx={{
-            height: GRID_ITEM_HEIGHT,
-            // margin: '5px 10px 5px 510x',
-            my: '5px',
             borderRadius: '10px',
             textAlign: 'flex-start',
           }}
+          mr={{ lg: '10px' }}
+          minWidth='411px'
         >
           <Grid
             container
             id='fighter-bio-grid-container'
-            padding={'25px 25px 25px 25px'}
+            px='5px'
+            pb='25px'
+            pt={{ lg: !allFour ? '20px' : '30px', xs: '15px' }}
+            mt={{ xs: '10px', lg: '0px' }}
+            minWidth='411px'
             direction='column'
             textAlign='center'
-            mt='10px'
-            justifyContent='space-evenly'
+            // justifyContent='space-evenly'
+            height={{
+              xs: parseInt(GRID_ITEM_HEIGHT) - 40 + 'px',
+              lg: GRID_ITEM_HEIGHT,
+            }}
           >
-            <Grid item id='fighter-name-grid-item' pb='15px'>
+            <Grid
+              item
+              id='fighter-name-grid-item'
+              pb={{ xs: '10px', md: '15px' }}
+            >
               <FighterName fighterData={fighterData} />
             </Grid>
 
@@ -115,18 +202,9 @@ const FighterBio = ({ fighterData }) => {
           </Grid>
         </Paper>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={2}
-        md={3}
-        sx={{
-          // height: xs ? '200px' : {GRID_ITEM_HEIGHT},
-          backgroundColor: 'yellow',
-        }}
-      >
-        <Typography variant='h6'></Typography>
-      </Grid>
+      {/*  */}
+      {FighterFlag}
+      {/*  */}
     </Grid>
   );
 };
