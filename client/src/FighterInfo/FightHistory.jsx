@@ -149,11 +149,11 @@ const FightCard = ({ fight }) => {
           container
           id='fight-stats'
           xs={12}
-          justifyContent={{ xs: 'center', md: 'space-evenly' }}
+          justifyContent={{ xs: 'center', md: 'space-between' }}
           alignItems={{ xs: 'flex-start', md: 'center' }}
           direction={{ xs: 'column', md: 'row' }}
           mt='5px'
-          pl='10px'
+          px='10px'
           pb='5px'
         >
           <Grid item>
