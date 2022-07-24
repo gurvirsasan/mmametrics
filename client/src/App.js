@@ -6,6 +6,8 @@ import Navbar from './Navbar.js';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+export const BACKGROUND_COLOR = '#307ae5';
+
 function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');

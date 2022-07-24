@@ -21,7 +21,6 @@ const FighterName = ({ fighterData }) => {
           fontSize={{ sm: '1.6rem', xs: '1.15rem' }}
           fontWeight={600}
           fontFamily={'Lato'}
-          color='#307ae5'
         >
           <i>"{fighterData.nickname}"</i>
         </Typography>

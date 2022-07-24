@@ -4,6 +4,7 @@ import { Box, Paper, Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import FighterBio, { GRID_ITEM_HEIGHT } from './FighterBio';
+import { BACKGROUND_COLOR } from '../App';
 const _ = require('lodash');
 
 const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
@@ -86,8 +87,7 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
 
   return (
     <Grid container>
-      <Grid item xs={0} lg={0.5} />
-      <Grid item xs={12} lg={11}>
+      <Grid item xs={12}>
         <Box
           sx={{
             paddingTop: phoneView ? '60px' : '95px',
@@ -114,11 +114,17 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
             >
               <FighterBio fighterData={fighterData} />
             </Grid>
-            <Grid item id='fighter-record'></Grid>
+            <Grid item id='fighter-record'>
+              <div
+                width='400px'
+                height='20px'
+                backgroundColor={BACKGROUND_COLOR}
+              ></div>
+              {/* <p>Hello</p> */}
+            </Grid>
           </Grid>
         </Box>
       </Grid>
-      <Grid item xs={0} lg={0.5} />
     </Grid>
   );
 };
