@@ -14,7 +14,7 @@ const OutcomeBox = ({ title, count, color }) => {
   return (
     <Paper
       id='outcome-box'
-      elevation='0'
+      elevation={0}
       style={{
         height: '40px',
         width: '140px',

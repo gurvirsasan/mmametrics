@@ -1,6 +1,11 @@
 import { Paper, Grid, Box, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default ({ fighterData }) => {
+  const theme = useTheme();
+  const lgBreakPoint = useMediaQuery(theme.breakpoints.up('lg'));
+
   const keyStyle = {
     color: '#307ae5',
     paddingRight: '10px',
@@ -28,14 +33,17 @@ export default ({ fighterData }) => {
   return (
     <Grid container>
       <Grid item container>
-        <Grid item xs={5}>
-          <Typography sx={keyStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 5 : 6}>
+          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             Age
           </Typography>
         </Grid>
-        <Grid item container xs={7}>
+        <Grid item container xs={lgBreakPoint ? 7 : 6}>
           <Grid item>
-            <Typography sx={valueStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+            <Typography
+              sx={valueStyle}
+              fontSize={{ sm: '1.2rem', xs: '1.2rem' }}
+            >
               {fighterData.age}
             </Typography>
           </Grid>
@@ -51,14 +59,17 @@ export default ({ fighterData }) => {
       </Grid>
       {/*  */}
       <Grid item container>
-        <Grid item xs={5}>
-          <Typography sx={keyStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 5 : 6}>
+          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             Weight
           </Typography>
         </Grid>
-        <Grid item container xs={7}>
+        <Grid item container xs={lgBreakPoint ? 7 : 6}>
           <Grid item>
-            <Typography sx={valueStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+            <Typography
+              sx={valueStyle}
+              fontSize={{ sm: '1.2rem', xs: '1.2rem' }}
+            >
               {fighterData.weight}
             </Typography>
           </Grid>
@@ -74,14 +85,17 @@ export default ({ fighterData }) => {
       </Grid>
       {/*  */}
       <Grid item container>
-        <Grid item xs={5}>
-          <Typography sx={keyStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 5 : 6}>
+          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             Class
           </Typography>
         </Grid>
-        <Grid item container xs={7}>
+        <Grid item container xs={lgBreakPoint ? 7 : 6}>
           <Grid item>
-            <Typography sx={valueStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+            <Typography
+              sx={valueStyle}
+              fontSize={{ sm: '1.2rem', xs: '1.2rem' }}
+            >
               {fighterData.weight_class}
             </Typography>
           </Grid>
@@ -89,14 +103,17 @@ export default ({ fighterData }) => {
       </Grid>
       {/*  */}
       <Grid item container>
-        <Grid item xs={5}>
-          <Typography sx={keyStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 5 : 6}>
+          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             Height
           </Typography>
         </Grid>
-        <Grid item container xs={7}>
+        <Grid item container xs={lgBreakPoint ? 7 : 6}>
           <Grid item>
-            <Typography sx={valueStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+            <Typography
+              sx={valueStyle}
+              fontSize={{ sm: '1.2rem', xs: '1.2rem' }}
+            >
               {fighterData.height}
             </Typography>
           </Grid>
@@ -106,7 +123,7 @@ export default ({ fighterData }) => {
               fontSize={{ md: '1em', sm: '0.9rem' }}
             >
               {parseInt(fighterData.height.split(`'`)[0]) * 30.48 +
-                parseInt(fighterData.height.split(`'`)[1]) * 2.54}{' '}
+                parseInt(fighterData.height.split(`'`)[1]) * 2.55}{' '}
               cm
             </Typography>
           </Grid>
@@ -114,13 +131,13 @@ export default ({ fighterData }) => {
       </Grid>
       {/*  */}
       <Grid item container>
-        <Grid item xs={5}>
-          <Typography sx={keyStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 5 : 6}>
+          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             Association
           </Typography>
         </Grid>
-        <Grid item xs={7}>
-          <Typography sx={valueStyle} fontSize={{ md: '1.2em', sm: '1rem' }}>
+        <Grid item xs={lgBreakPoint ? 7 : 6}>
+          <Typography sx={valueStyle} fontSize={{ sm: '1.2rem', xs: '1.2rem' }}>
             {fighterData.association}
           </Typography>
         </Grid>
