@@ -73,7 +73,6 @@ const FighterBio = ({ fighterData }) => {
             fontSize='1.6rem'
             fontFamily={'Lato'}
             fontWeight={800}
-            textAlign='left'
           >
             {fighterData.nationality.toUpperCase()}
           </Typography>
@@ -84,7 +83,6 @@ const FighterBio = ({ fighterData }) => {
           xs={12}
           fontSize='0.42rem'
           justifyContent={{ sm: 'flex-start', xs: 'center' }}
-          textAlign='left'
         >
           <Typography fontSize='1.3rem' fontFamily={'Lato'} color='#307ae5'>
             {fighterData.locality.toUpperCase()}
@@ -156,7 +154,7 @@ const FighterBio = ({ fighterData }) => {
         lg={6}
         order={{ xs: 4, lg: 0 }}
         maxWidth='500px'
-        pr={{ lg: '20px' }}
+        pr={{ lg: '10px' }}
       >
         <Paper
           id='fighter-bio-paper'
@@ -166,7 +164,6 @@ const FighterBio = ({ fighterData }) => {
             textAlign: 'flex-start',
           }}
           mr={{ lg: '10px' }}
-          minWidth='411px'
         >
           <Grid
             container
@@ -175,10 +172,10 @@ const FighterBio = ({ fighterData }) => {
             pb='25px'
             pt={{ lg: !allFour ? '20px' : '30px', xs: '15px' }}
             mt={{ xs: '10px', lg: '0px' }}
-            minWidth='411px'
+            minWidth='350px'
             direction='column'
             textAlign='center'
-            // justifyContent='space-evenly'
+            justifyContent='space-evenly'
             height={{
               xs: parseInt(GRID_ITEM_HEIGHT) - 40 + 'px',
               lg: GRID_ITEM_HEIGHT,

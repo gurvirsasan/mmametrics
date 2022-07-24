@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import FighterBio, { GRID_ITEM_HEIGHT } from './FighterBio';
-import { BACKGROUND_COLOR } from '../App';
+import FighterBio from './FighterBio';
+import FightHistory from './FightHistory';
+
 const _ = require('lodash');
 
 const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
@@ -104,6 +105,7 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
               minHeight: phoneView ? '1000px' : '830px',
             }}
           >
+            {/* FIGHTER BIO */}
             <Grid
               item
               container
@@ -114,13 +116,9 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
             >
               <FighterBio fighterData={fighterData} />
             </Grid>
-            <Grid item id='fighter-record'>
-              <div
-                width='400px'
-                height='20px'
-                backgroundColor={BACKGROUND_COLOR}
-              ></div>
-              {/* <p>Hello</p> */}
+            {/* FIGHT HISTORY */}
+            <Grid item container>
+              <FightHistory fighterData={fighterData} />
             </Grid>
           </Grid>
         </Box>
