@@ -78,7 +78,7 @@ export default ({ fighterData }) => {
               sx={extraValueStyle}
               fontSize={{ md: '1em', sm: '0.9rem' }}
             >
-              {parseInt(fighterData.weight) * 0.453592} kg
+              {(parseInt(fighterData.weight) * 0.453592).toFixed(2)} kg
             </Typography>
           </Grid>
         </Grid>
@@ -122,8 +122,10 @@ export default ({ fighterData }) => {
               sx={extraValueStyle}
               fontSize={{ md: '1em', sm: '0.9rem' }}
             >
-              {parseInt(fighterData.height.split(`'`)[0]) * 30.48 +
-                parseInt(fighterData.height.split(`'`)[1]) * 2.55}{' '}
+              {(
+                parseInt(fighterData.height.split(`'`)[0]) * 30.48 +
+                parseInt(fighterData.height.split(`'`)[1]) * 2.55
+              ).toFixed(2)}{' '}
               cm
             </Typography>
           </Grid>

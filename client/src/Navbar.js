@@ -1,4 +1,10 @@
-const Navbar = ({ searchedVal, setSearchedVal, setIsSearching }) => {
+const Navbar = ({
+  searchedVal,
+  setSearchedVal,
+  setIsSearching,
+  isLogoClicked,
+  setIsLogoClicked,
+}) => {
   return (
     <div id='navBar'>
       <div className='nav-bar-container'>
@@ -27,9 +33,10 @@ const Navbar = ({ searchedVal, setSearchedVal, setIsSearching }) => {
                 ? setIsSearching(true)
                 : ''
             }
+            value={searchedVal}
           />
         </div>
-        <div className='logo'>
+        <div className='logo' onClick={() => setIsLogoClicked(true)}>
           <img
             src='/mmametricsLogo.png'
             width={'150px'}

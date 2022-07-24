@@ -1,7 +1,7 @@
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import { BACKGROUND_COLOR } from '../App';
 
-const FightCard = ({ fight }) => {
+const FightCard = ({ fight, setSearchedVal, setIsSearching }) => {
   return (
     <Grid
       item
@@ -36,7 +36,7 @@ const FightCard = ({ fight }) => {
               : fight.result === 'loss'
               ? 'red'
               : fight.result === 'NC'
-              ? 'grey'
+              ? 'gray'
               : 'orange'
           }
         >
@@ -75,6 +75,11 @@ const FightCard = ({ fight }) => {
               variant='p'
               fontWeight={600}
               fontSize={{ xs: '0.8rem', sm: '1rem' }}
+              onClick={() => {
+                setSearchedVal(fight.opponent);
+                setIsSearching(true);
+              }}
+              style={{ cursor: 'pointer' }}
             >
               {fight.opponent}
             </Typography>
@@ -128,7 +133,7 @@ const FightCard = ({ fight }) => {
         {/*  */}
         <Grid item justifyContent={'flex-start'} textAlign='center'>
           <Typography variant='p' fontSize={{ xs: '0.8rem', sm: '1rem' }}>
-            <i
+            <span
               style={{
                 color:
                   fight.result === 'win'
@@ -136,12 +141,12 @@ const FightCard = ({ fight }) => {
                     : fight.result === 'loss'
                     ? 'red'
                     : fight.result === 'NC'
-                    ? 'grey'
+                    ? 'gray'
                     : 'orange',
               }}
             >
               {fight.method}
-            </i>
+            </span>
           </Typography>
         </Grid>
         <Grid
@@ -156,6 +161,21 @@ const FightCard = ({ fight }) => {
           px='10px'
           pb='5px'
         >
+          {fight.referee && (
+            <Grid item>
+              <Typography
+                variant='p'
+                fontWeight={400}
+                fontSize={{ xs: '0.8rem', sm: '1rem' }}
+              >
+                Refree:
+                <span style={{ color: BACKGROUND_COLOR }}>
+                  {' '}
+                  {fight.referee}
+                </span>
+              </Typography>
+            </Grid>
+          )}
           <Grid item>
             <Typography
               variant='p'
@@ -176,28 +196,13 @@ const FightCard = ({ fight }) => {
               <span style={{ color: BACKGROUND_COLOR }}> {fight.time}</span>
             </Typography>
           </Grid>
-          {fight.referee && (
-            <Grid item>
-              <Typography
-                variant='p'
-                fontWeight={400}
-                fontSize={{ xs: '0.8rem', sm: '1rem' }}
-              >
-                Refree:
-                <span style={{ color: BACKGROUND_COLOR }}>
-                  {' '}
-                  {fight.referee}
-                </span>
-              </Typography>
-            </Grid>
-          )}
         </Grid>
       </Grid>
     </Grid>
   );
 };
 
-const FightHistory = ({ fighterData }) => {
+const FightHistory = ({ fighterData, setSearchedVal, setIsSearching }) => {
   if (fighterData.fights === undefined) return '';
   return (
     <Grid
@@ -231,7 +236,12 @@ const FightHistory = ({ fighterData }) => {
         mt='20px'
       >
         {fighterData.fights.map((fight) => (
-          <FightCard fight={fight} key={fight.name} />
+          <FightCard
+            fight={fight}
+            setSearchedVal={setSearchedVal}
+            setIsSearching={setIsSearching}
+            key={fight.name + fight.time}
+          />
         ))}
       </Grid>
     </Grid>

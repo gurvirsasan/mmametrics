@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { Box, Paper, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import FighterBio from './FighterBio';
@@ -8,16 +8,23 @@ import FightHistory from './FightHistory';
 
 const _ = require('lodash');
 
-const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
+const FighterPage = ({
+  searchedVal,
+  setSearchedVal,
+  isSearching,
+  setIsSearching,
+  isLogoClicked,
+  setIsLogoClicked,
+}) => {
   const theme = useTheme();
   const [fighterData, setFighterData] = useState({});
 
   const getFighter = () => {
     fetch(`/api/fighter?name=${searchedVal}`)
       .then((res) => res.json())
-      .then((fighterData) => {
+      .then((res) => {
         setIsSearching(false);
-        setFighterData(fighterData);
+        if (!_.isEqual(fighterData, res)) setFighterData(res);
       })
       .catch((error) => {
         setIsSearching(false);
@@ -29,8 +36,15 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
 
   // media queries
   const phoneView = useMediaQuery('(min-width:701px)');
-  const lg = useMediaQuery(theme.breakpoints.down('lg'));
-  const xs = useMediaQuery(theme.breakpoints.up('xs'));
+
+  // when logo is clicked
+  useEffect(() => {
+    if (isLogoClicked) {
+      setFighterData({});
+      setSearchedVal('');
+      setIsLogoClicked(false);
+    }
+  }, [isLogoClicked]);
 
   useEffect(() => {
     console.log(fighterData);
@@ -65,24 +79,29 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
 
   if (_.isEqual(fighterData, {})) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          paddingTop: '20px',
-        }}
+      <Grid
+        container
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        sx={
+          !phoneView
+            ? { fontSize: '14px', paddingTop: '30vh' }
+            : { paddingTop: '30vh' }
+        }
       >
-        <Typography
-          variant='p'
-          sx={
-            !phoneView
-              ? { fontSize: '14px', paddingTop: '30vh' }
-              : { paddingTop: '30vh' }
-          }
-        >
-          Hi! Search for any MMA fighter you can think of
-        </Typography>
-      </div>
+        <Grid item>
+          <img
+            id='rachel'
+            src='/colored-mmametrics-logo.png'
+            width={'250px'}
+            alt='mmametrics'
+          />
+        </Grid>
+        <Grid item pt='20px'>
+          <Typography variant='p'>Sup! Search for any MMA fighter!</Typography>
+        </Grid>
+      </Grid>
     );
   }
 
@@ -118,7 +137,11 @@ const FighterPage = ({ searchedVal, isSearching, setIsSearching }) => {
             </Grid>
             {/* FIGHT HISTORY */}
             <Grid item container>
-              <FightHistory fighterData={fighterData} />
+              <FightHistory
+                fighterData={fighterData}
+                setSearchedVal={setSearchedVal}
+                setIsSearching={setIsSearching}
+              />
             </Grid>
           </Grid>
         </Box>
