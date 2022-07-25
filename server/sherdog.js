@@ -127,8 +127,19 @@ const getFighterData = (sherdogLink, callback) => {
       //  Fight History
       //----------------------------------+
       // .module.fight_history tr:not(.table_head) gets all fights
+
+      // body > div.container > div.col-left > div > section:nth-child(4)
+      // body > div.container > div.col-left > div > section:nth-child(6)
+
+      const sectionIndex =
+        $(
+          'body > div.container > div.col-left > div > section:nth-child(5) > div.tiled_bg.latest_features > div > div:nth-child(1)'
+        ).text() === 'Upcoming Fights'
+          ? 6
+          : 4;
+      // `.module.fight_history:first-of-type tr:not(.table_head)` gets all the fights
       $(
-        'div > section:nth-child(4) > div.module.fight_history > div > table > tbody > tr:not(.table_head)'
+        `div > section:nth-child(${sectionIndex}) > div.module.fight_history > div > table > tbody > tr:not(.table_head)`
       ).each(function () {
         const el = $(this);
         const result = el.find('td:nth-child(1) .final_result').text();

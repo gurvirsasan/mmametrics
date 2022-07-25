@@ -87,7 +87,7 @@ app.get('/api/fighter', async (req, res) => {
   //  Get the fighter's data
   //----------------------------------+
   getFighterData(sherdogLink, async (fighterData) => {
-    if (_.isEqual(fighterData, {}) || _.isEqual(fighterData.fights, []))
+    if (_.isEqual(fighterData, {}))
       return res.status(400).json({
         errorMessage: `Fighter not found`,
       });
