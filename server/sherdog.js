@@ -126,7 +126,10 @@ const getFighterData = (sherdogLink, callback) => {
       //----------------------------------+
       //  Fight History
       //----------------------------------+
-      $('.module.fight_history tr:not(.table_head)').each(function () {
+      // .module.fight_history tr:not(.table_head) gets all fights
+      $(
+        'div > section:nth-child(4) > div.module.fight_history > div > table > tbody > tr:not(.table_head)'
+      ).each(function () {
         const el = $(this);
         const result = el.find('td:nth-child(1) .final_result').text();
         const opponent_name = el.find('td:nth-child(2) a').text();
