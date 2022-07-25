@@ -26,10 +26,7 @@ const FighterPage = ({
         setIsSearching(false);
         if (!_.isEqual(fighterData, res)) {
           setFighterData(res);
-          document.title =
-            searchedVal.charAt(0).toUpperCase() +
-            searchedVal.slice(1) +
-            ' - MMAMetrics';
+          document.title = res.name + ' - MMAMetrics';
         }
       })
       .catch((error) => {
