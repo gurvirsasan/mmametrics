@@ -209,7 +209,7 @@ const FightHistory = ({ fighterData, setSearchedVal, setIsSearching }) => {
       item
       container
       xs={12}
-      pt='10px'
+      pt={{ xs: '20px', sm: '0px' }}
       alignItems='center'
       justifyContent='center'
     >
@@ -235,12 +235,12 @@ const FightHistory = ({ fighterData, setSearchedVal, setIsSearching }) => {
         alignItems='center'
         mt='20px'
       >
-        {fighterData.fights.map((fight) => (
+        {fighterData.fights.map((fight, index) => (
           <FightCard
             fight={fight}
             setSearchedVal={setSearchedVal}
             setIsSearching={setIsSearching}
-            key={fight.name + fight.time}
+            key={index}
           />
         ))}
       </Grid>

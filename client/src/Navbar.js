@@ -28,11 +28,15 @@ const Navbar = ({
           <input
             placeholder='Search Fighter...'
             onChange={(e) => setSearchedVal(e.target.value)}
-            onKeyPress={(e) =>
-              e.key === 'Enter' && searchedVal.replace(' ', '') !== ''
-                ? setIsSearching(true)
-                : ''
-            }
+            onKeyPress={(e) => {
+              if (
+                e.key === 'Enter' &&
+                searchedVal.replace(' ', '') !== '' &&
+                e.target.value !== ''
+              ) {
+                setIsSearching(true);
+              }
+            }}
             value={searchedVal}
           />
         </div>

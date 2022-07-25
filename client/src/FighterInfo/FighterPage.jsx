@@ -24,7 +24,13 @@ const FighterPage = ({
       .then((res) => res.json())
       .then((res) => {
         setIsSearching(false);
-        if (!_.isEqual(fighterData, res)) setFighterData(res);
+        if (!_.isEqual(fighterData, res)) {
+          setFighterData(res);
+          document.title =
+            searchedVal.charAt(0).toUpperCase() +
+            searchedVal.slice(1) +
+            ' - MMAMetrics';
+        }
       })
       .catch((error) => {
         setIsSearching(false);
@@ -46,10 +52,6 @@ const FighterPage = ({
     }
   }, [isLogoClicked]);
 
-  useEffect(() => {
-    console.log(fighterData);
-  }, [fighterData]);
-
   if (isSearching) {
     return (
       <div
@@ -59,7 +61,9 @@ const FighterPage = ({
           paddingTop: '30vh',
         }}
       >
-        Loading...
+        <Typography variant='h5' fontFamily='Lato'>
+          Loading . . .
+        </Typography>
       </div>
     );
   }
@@ -72,7 +76,9 @@ const FighterPage = ({
           paddingTop: '30vh',
         }}
       >
-        {fighterData.errorMessage + ' :('}
+        <Typography variant='h5' fontFamily='Lato'>
+          {fighterData.errorMessage + ' :('}
+        </Typography>
       </div>
     );
   }

@@ -133,16 +133,26 @@ export default ({ fighterData }) => {
       </Grid>
       {/*  */}
       <Grid item container>
-        <Grid item xs={6}>
-          <Typography sx={keyStyle} fontSize={{ sm: '1.2rem', xs: '1.1rem' }}>
-            Association
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography sx={valueStyle} fontSize={{ sm: '1.2rem', xs: '1.1rem' }}>
-            {fighterData.association}
-          </Typography>
-        </Grid>
+        {fighterData.association && (
+          <>
+            <Grid item xs={6}>
+              <Typography
+                sx={keyStyle}
+                fontSize={{ sm: '1.2rem', xs: '1.1rem' }}
+              >
+                Association
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                sx={valueStyle}
+                fontSize={{ sm: '1.2rem', xs: '1.1rem' }}
+              >
+                {fighterData.association}
+              </Typography>
+            </Grid>
+          </>
+        )}
       </Grid>
     </Grid>
   );

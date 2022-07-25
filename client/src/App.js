@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FighterPage from './FighterInfo/FighterPage.jsx';
 import './App.css';
 import Navbar from './Navbar.js';
-
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 export const BACKGROUND_COLOR = '#307ae5';
 
@@ -12,7 +10,10 @@ function App() {
   const [searchedVal, setSearchedVal] = useState('');
   const [isLogoClicked, setIsLogoClicked] = useState(false);
 
-  const matches = useMediaQuery('(min-width:701px)');
+  useEffect(() => {
+    document.title = 'MMAMetrics';
+  }, [isLogoClicked]);
+
   return (
     <>
       <Navbar

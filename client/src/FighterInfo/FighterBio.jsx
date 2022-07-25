@@ -4,6 +4,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import FighterRecord from './FighterRecord';
 import FighterWiki from './FighterWiki';
 import Flag from 'react-world-flags';
+import { BACKGROUND_COLOR } from '../App';
+import { useTheme } from '@mui/material/styles';
 
 import countryData from '../Components/data/countries.json';
 
@@ -28,7 +30,7 @@ const FighterName = ({ fighterData }) => {
       <Typography
         id='fullName'
         variant='h4'
-        fontSize={{ sm: '2rem', xs: '1.65rem' }}
+        fontSize={{ sm: '2rem', xs: '1.4rem' }}
         fontWeight={800}
         fontFamily={'Lato'}
       >
@@ -113,6 +115,9 @@ const FighterBio = ({ fighterData }) => {
   const allFour = () =>
     fighterData.draws !== 0 && fighterData.no_contests !== 0;
 
+  const theme = useTheme();
+  const xsOnly = useMediaQuery(theme.breakpoints.up('xs'));
+
   return (
     <Grid
       item
@@ -158,7 +163,7 @@ const FighterBio = ({ fighterData }) => {
       >
         <Paper
           id='fighter-bio-paper'
-          elevation={2}
+          elevation={4}
           sx={{
             borderRadius: '10px',
             textAlign: 'flex-start',
@@ -180,6 +185,7 @@ const FighterBio = ({ fighterData }) => {
               xs: parseInt(GRID_ITEM_HEIGHT) - 40 + 'px',
               lg: GRID_ITEM_HEIGHT,
             }}
+            overflow={'auto'}
           >
             <Grid
               item
@@ -201,6 +207,9 @@ const FighterBio = ({ fighterData }) => {
       {/*  */}
       {FighterFlag}
       {/*  */}
+      <Grid item xs={12} visibility={{ xs: 'visible', sm: 'hidden' }}>
+        <hr></hr>
+      </Grid>
     </Grid>
   );
 };
