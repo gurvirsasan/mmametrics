@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import FighterBio from './FighterBio';
@@ -59,7 +61,7 @@ const FighterPage = ({
         }}
       >
         <Typography variant='h5' fontFamily='Lato'>
-          Loading . . .
+          <CircularProgress />
         </Typography>
       </div>
     );
